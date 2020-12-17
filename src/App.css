@@ -54,7 +54,7 @@ body {
     margin-bottom: 50px;
     color: #ffffff;
     background-color: #00000020;
-    padding: 0 80px;
+    /* padding: 0 80px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -140,12 +140,38 @@ body {
 }
 
 @media screen and (max-width:500px) {
-    .container {
-        background-color: green;
+    .header {
         max-width: 300px;
     }
-    .header {
-        width: 100%;
+    .header h1 {
+        font-size: 30px;
+    }
+    .top {
         max-width: 300px;
+        padding: 0;
+        flex-wrap: wrap;
+        align-content: center;
+    }
+    .top input {
+        max-width: 75%;
+    }
+    .control-view {
+        max-width: 300px;
+        flex-wrap: wrap;
+    }
+    .control-btn {
+        width: 50%;
+    }
+    .control-btn:hover {
+        transform: scale(1);
+    }
+    .middle {
+        max-width: 300px;
+    }
+    .middle input {
+        max-width: 50%;
+    }
+    .middle button {
+        transform: scale(0.75);
     }
 }
