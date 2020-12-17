@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import './App.css'
 import TaskListComponent from './app/components/TaskListComponent'
 import {addTask, removeAllTasks} from './app/features/task/taskSlice'
@@ -9,6 +9,24 @@ const App = () => {
 
     const [taskInputText, setTaskInputText] = useState('')
     const [tasksListMode, setTasksListMode] = useState('ALL')
+
+    const addBtnRef = useRef(null)
+    const taskInputRef = useRef(null)
+
+    useEffect(() => {
+        const listener = event => {
+            if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+                addBtnRef.current.focus()
+            }
+        }
+
+        taskInputRef.current.focus()
+
+        document.addEventListener('keydown', listener);
+        return () => {
+            document.removeEventListener('keydown', listener);
+        }
+    }, [])
 
     // function to change style for control button
     const controlButtonStyle = (name) => {
@@ -28,30 +46,32 @@ const App = () => {
     }
 
     return (
-        <div className="container">
-            <div className="header">
-                <h1 className="header-text">EASY TODO LIST</h1>
+        <div className='container'>
+            <div className='header'>
+                <h1 className='header-text'>EASY TODO LIST</h1>
             </div>
-            <div className="main">
-                <div className="top">
+            <div className='main'>
+                <div className='top'>
                     <input
-                        type="text"
-                        className="input"
-                        placeholder="new task"
+                        type='text'
+                        className='input'
+                        placeholder='new task'
                         value={taskInputText}
+                        ref={taskInputRef}
                         onChange={(e) => {setTaskInputText(e.target.value)}}
                     />
                     <button
-                        className="btn add-btn"
+                        className='btn add-btn'
                         onClick={onClickAddButton}
+                        ref={addBtnRef}
                     >
                         ADD
                     </button>
                 </div>
-                <div className="control-view">
+                <div className='control-view'>
 
                     <button
-                        className="btn control-btn all-btn"
+                        className='btn control-btn all-btn'
                         onClick={() => {setTasksListMode('ALL')}}
                         style={controlButtonStyle('ALL')}
                     >
@@ -59,7 +79,7 @@ const App = () => {
                     </button>
 
                     <button
-                        className="btn control-btn pending-btn"
+                        className='btn control-btn pending-btn'
                         onClick={() => {setTasksListMode('PENDING')}}
                         style={controlButtonStyle('PENDING')}
                     >
@@ -67,7 +87,7 @@ const App = () => {
                     </button>
 
                     <button
-                        className="btn control-btn complete-btn"
+                        className='btn control-btn complete-btn'
                         onClick={() => {setTasksListMode('COMPLETED')}}
                         style={controlButtonStyle('COMPLETED')}
                     >
@@ -75,13 +95,13 @@ const App = () => {
                     </button>
 
                     <button
-                        className="btn control-btn clear-btn"
+                        className='btn control-btn clear-btn'
                         onClick={() => {dispatch(removeAllTasks())}}
                     >
                         CLEAR
                     </button>
                 </div>
-                <div className="middle">
+                <div className='middle'>
                     <TaskListComponent mode={tasksListMode} />
                 </div>
             </div>

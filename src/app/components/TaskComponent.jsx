@@ -40,40 +40,40 @@ const TaskComponent = (props) => {
 
     return (
         <div
-            className="task"
+            className='task'
             style={isChecked ? {backgroundColor: '#bdc3c7', border: 'none'} : {}}
         >
             <input
-                type="text"
-                className="task-text"
+                type='text'
+                className='task-text'
                 style={isChecked ? {textDecoration: 'line-through'} : {textDecoration: 'none'}}
                 value={newTaskTitle}
                 readOnly={!isEditting}
                 ref={editInputRef}
                 onChange={(e) => {setNewTaskTitle(e.target.value)}}
             />
-            <div className="task-btn-view">
+            <div className='task-btn-view'>
                 <button
-                    className="btn task-btn edit-btn"
+                    className='btn task-btn edit-btn'
                     onClick={onClickEditBtn}
                 >
                     {
-                        isEditting ? <i className="far fa-save"></i> : <i className="far fa-edit"></i>
+                        isEditting ? <i className='far fa-save'></i> : <i className='far fa-edit'></i>
                     }
                 </button>
 
                 <button
-                    className="btn task-btn remove-btn"
+                    className='btn task-btn remove-btn'
                     onClick={onClickRemoveBtn}
                 >
-                    <i className="fas fa-times"></i>
+                    <i className='fas fa-times'></i>
                 </button>
 
                 <button
-                    className="btn task-btn check-btn"
+                    className='btn task-btn check-btn'
                     onClick={onClickCheckBtn}
                 >
-                    {isChecked && <i className="fas fa-check"></i>}
+                    {isChecked && <i className='fas fa-check'></i>}
                 </button>
             </div>
         </div>
