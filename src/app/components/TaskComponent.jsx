@@ -13,6 +13,7 @@ const TaskComponent = (props) => {
     const [newTaskTitle, setNewTaskTitle] = useState(task.title)
 
     const editInputRef = useRef(null)
+    const editBtnRef = useRef(null)
 
     useEffect(() => {
         task = tasks.find(ele => ele.id === task.id)
@@ -51,10 +52,16 @@ const TaskComponent = (props) => {
                 readOnly={!isEditting}
                 ref={editInputRef}
                 onChange={(e) => {setNewTaskTitle(e.target.value)}}
+                onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                        editBtnRef.current.focus()
+                    }
+                }}
             />
             <div className='task-btn-view'>
                 <button
                     className='btn task-btn edit-btn'
+                    ref={editBtnRef}
                     onClick={onClickEditBtn}
                 >
                     {

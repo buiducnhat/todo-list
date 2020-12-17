@@ -14,18 +14,7 @@ const App = () => {
     const taskInputRef = useRef(null)
 
     useEffect(() => {
-        const listener = event => {
-            if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-                addBtnRef.current.focus()
-            }
-        }
-
         taskInputRef.current.focus()
-
-        document.addEventListener('keydown', listener);
-        return () => {
-            document.removeEventListener('keydown', listener);
-        }
     }, [])
 
     // function to change style for control button
@@ -59,6 +48,11 @@ const App = () => {
                         value={taskInputText}
                         ref={taskInputRef}
                         onChange={(e) => {setTaskInputText(e.target.value)}}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                addBtnRef.current.focus()
+                            }
+                        }}
                     />
                     <button
                         className='btn add-btn'

@@ -172,6 +172,7 @@ body {
         max-width: 50%;
     }
     .middle button {
+        margin: 0;
         transform: scale(0.75);
     }
 }
