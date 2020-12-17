@@ -135,5 +135,17 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #ecf0f1;
+    padding-top: 20px;
     padding-bottom: 20px;
+}
+
+@media screen and (max-width:500px) {
+    .container {
+        background-color: green;
+        max-width: 300px;
+    }
+    .header {
+        width: 100%;
+        max-width: 300px;
+    }
 }

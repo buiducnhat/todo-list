@@ -4,7 +4,7 @@ const taskSlice = createSlice({
     name: 'task',
     initialState: {
         id: 0,
-        tasks: [{id: 0, title: 'a', isCompleted: false}]
+        tasks: []
     },
     reducers: {
         addTask(state, action) {
