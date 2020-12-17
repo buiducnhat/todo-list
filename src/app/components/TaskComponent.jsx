@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import './TaskComponent.css'
 import {editTask, removeTask, toggleCompleteTask} from '../features/task/taskSlice'
 import {useDispatch, useSelector} from 'react-redux'
@@ -9,6 +9,10 @@ const TaskComponent = (props) => {
     let {task} = props
 
     const [isChecked, setIsChecked] = useState(false)
+    const [isEditting, setIsEditting] = useState(false)
+    const [newTaskTitle, setNewTaskTitle] = useState(task.title)
+
+    const editInputRef = useRef(null)
 
     useEffect(() => {
         task = tasks.find(ele => ele.id === task.id)
@@ -24,6 +28,16 @@ const TaskComponent = (props) => {
         dispatch(removeTask({id: task.id}))
     }
 
+    const onClickEditBtn = () => {
+        if (!isEditting) {
+            editInputRef.current.focus()
+            return setIsEditting(true)
+        } else {
+            dispatch(editTask({id: task.id, title: newTaskTitle}))
+            setIsEditting(false)
+        }
+    }
+
     return (
         <div
             className="task"
@@ -33,14 +47,19 @@ const TaskComponent = (props) => {
                 type="text"
                 className="task-text"
                 style={isChecked ? {textDecoration: 'line-through'} : {textDecoration: 'none'}}
-                value={task.title}
-                readOnly={true}
+                value={newTaskTitle}
+                readOnly={!isEditting}
+                ref={editInputRef}
+                onChange={(e) => {setNewTaskTitle(e.target.value)}}
             />
             <div className="task-btn-view">
                 <button
                     className="btn task-btn edit-btn"
+                    onClick={onClickEditBtn}
                 >
-                    <i className="far fa-edit"></i>
+                    {
+                        isEditting ? <i className="far fa-save"></i> : <i className="far fa-edit"></i>
+                    }
                 </button>
 
                 <button
