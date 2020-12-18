@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
+import {Button, Dialog, DialogTitle, DialogActions} from '@material-ui/core'
 import './TaskComponent.css'
 import {editTask, removeTask, toggleCompleteTask} from '../features/task/taskSlice'
 import {useDispatch, useSelector} from 'react-redux'
@@ -10,6 +11,7 @@ const TaskComponent = (props) => {
 
     const [isChecked, setIsChecked] = useState(false)
     const [isEditting, setIsEditting] = useState(false)
+    const [onTriggerClearBtn, setOnTriggerClearBtn] = useState(false)
     const [newTaskTitle, setNewTaskTitle] = useState(task.title)
 
     const editInputRef = useRef(null)
@@ -25,7 +27,7 @@ const TaskComponent = (props) => {
     }
 
     const onClickRemoveBtn = () => {
-        dispatch(removeTask({id: task.id}))
+        setOnTriggerClearBtn(true)
     }
 
     const onClickEditBtn = () => {
@@ -43,6 +45,26 @@ const TaskComponent = (props) => {
             className='task'
             style={isChecked ? {backgroundColor: '#bdc3c7', border: 'none'} : {}}
         >
+            <Dialog
+                aria-labelledby="Clear?"
+                open={onTriggerClearBtn}
+                onClose={() => {setOnTriggerClearBtn(false)}}
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Are you sure to remove this task"}</DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => {setOnTriggerClearBtn(false)}} color="secondary">
+                        Disagree
+                    </Button>
+                    <Button onClick={() => {
+                        dispatch(removeTask({id: task.id}))
+                        setOnTriggerClearBtn(false)
+                    }}
+                        color="primary" autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog >
             <input
                 type='text'
                 className='task-text'

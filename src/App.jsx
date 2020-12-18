@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import './App.css'
+import {Button, Dialog, DialogTitle, DialogActions} from '@material-ui/core'
 import TaskListComponent from './app/components/TaskListComponent'
 import {addTask, removeAllTasks} from './app/features/task/taskSlice'
 import {useDispatch} from 'react-redux'
@@ -9,6 +10,7 @@ const App = () => {
 
     const [taskInputText, setTaskInputText] = useState('')
     const [tasksListMode, setTasksListMode] = useState('ALL')
+    const [onTriggerClearBtn, setOnTriggerClearBtn] = useState(false)
 
     const addBtnRef = useRef(null)
     const taskInputRef = useRef(null)
@@ -47,6 +49,26 @@ const App = () => {
 
     return (
         <div className='container'>
+            <Dialog
+                aria-labelledby="Clear?"
+                open={onTriggerClearBtn}
+                onClose={() => {setOnTriggerClearBtn(false)}}
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Are you sure to remove all tasks?"}</DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => {setOnTriggerClearBtn(false)}} color="secondary">
+                        Disagree
+                    </Button>
+                    <Button onClick={() => {
+                        dispatch(removeAllTasks())
+                        setOnTriggerClearBtn(false)
+                    }}
+                        color="primary" autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog >
             <div className='header'>
                 <h1 className='header-text'>EASY TODO LIST</h1>
             </div>
@@ -96,7 +118,7 @@ const App = () => {
 
                     <button
                         className='btn control-btn clear-btn'
-                        onClick={() => {dispatch(removeAllTasks())}}
+                        onClick={() => {setOnTriggerClearBtn(true)}}
                     >
                         CLEAR
                     </button>
